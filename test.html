@@ -3,8 +3,21 @@
   <head>
     <title>Markov Awesome</title>
     <script src="markov.js"></script>
-    <script>
+    <script src="testdata.js"></script>
+    <script>    
       window.onload = function() {
+        function train_with_comments(entity) {
+          for(var i = 0; i < entity.length; i++) {
+            if (entity[i].kind === 't1') {
+              generator.train(entity[i].data.body);
+            }
+            
+            if (entity[i].data && entity[i].data.children) {
+              train_with_comments(entity[i].data.children);
+            }
+          }
+        };
+      
         window.generator = new MarkovGenerator();
         
         var sample = document.getElementById('sample');
@@ -13,19 +26,20 @@
         var generated = document.getElementById('generated');
         
         train.addEventListener('click', function() {
-          generator.train(sample.value);
-          sample.value = '';
+          generated.innerText = JSON.stringify(generator.tokenize(sample.value));
         });
         
         generate.addEventListener('click', function() {
           generated.innerText = generator.generate();
         });
+
+        train_with_comments(testdata);
       };
     </script>
   </head>
   <body>
     <textarea width="200" height="100" id="sample"></textarea>
-    <button type="button" id="train">Train</button>
+    <button type="button" id="train">Tokenize</button>
     <hr/>
     <button type="button" id="generate">Generate</button>
     <p id="generated"></p>

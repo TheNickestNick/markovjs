@@ -23,16 +23,24 @@
         current = choose(possible);
         
         if (current !== '$end') {
-          result += current + ' ';
+          if (/[\.,!]/.test(current)) {
+            result += current;
+          }
+          else if (/(\w|\.|!|,)$/.test(result)) {
+            result += ' ' + current;
+          }
+          else {
+            result += current;
+          }
         }
       }
       
       return result;
     };
     
-    var regex = /(\w+)/gm;
+    var regex = /(\w+'\w+)|(\w+)|[\.,!;]/gm;
     
-    function tokenize(s) {
+    this.tokenize = function(s) {
       var tokens = [];
       var match;
       while(match = regex.exec(s)) {
@@ -45,7 +53,7 @@
     this.incidents = incidents;
     
     this.train = function(sample) {
-      var tokens = tokenize(sample);
+      var tokens = this.tokenize(sample);
       tokens.push('$end');
       
       var current = '$start', last;
