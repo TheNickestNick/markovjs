@@ -1,11 +1,21 @@
 (function() {
   window.MarkovGenerator = function() {
     this.generate = function() {
-      return this.sample;
+    };
+    
+    var regex = /(\w+)((\W+)|$)/gm.compile();
+    
+    function tokenize(s) {
+      var tokens = [];
+      var match;
+      while(match = regex.exec(s)) {
+        tokens.push(match);
+      }
+      return tokens;
     };
     
     this.train = function(sample) {
-      this.sample = sample;
+      return tokenize(sample);
     };
   };
 })();
