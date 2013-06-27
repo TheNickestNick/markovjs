@@ -5,15 +5,29 @@
     <script src="markov.js"></script>
     <script>
       window.onload = function() {
+        var generator = new MarkovGenerator();
+        
+        var sample = document.getElementById('sample');
+        var train = document.getElementById('train');
+        var generate = document.getElementById('generate');
+        var generated = document.getElementById('generated');
+        
+        train.addEventListener('click', function() {
+          generator.train(sample.value);
+          sample.value = '';
+        });
+        
+        generate.addEventListener('click', function() {
+          generated.innerText = generator.generate();
+        });
       };
     </script>
   </head>
   <body>
-    <h1>Train</h1>
-    <textarea width="200" height="100"></textarea>
-    <button type="button">Train</button>
+    <textarea width="200" height="100" id="sample"></textarea>
+    <button type="button" id="train">Train</button>
     <hr/>
-    <button type="button">Generate</button>
+    <button type="button" id="generate">Generate</button>
     <p id="generated"></p>
   </body>
 </html>
