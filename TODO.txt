@@ -1,0 +1,4 @@
+Handle quotes.
+Handle punction better in general (lots of specific cases right now).
+Parse links as a single token somehow (or perhaps don't parse at all?).
+Generalize to allow "follows N previous words" instead of just 1 previous word.
